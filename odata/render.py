@@ -4,7 +4,7 @@ from odata.exc import RequestParseError
 
 class ReprEncoder(JSONEncoder):
     def default(self, obj):
-        if isinstance(obj, (list, dict, str, unicode, int,
+        if isinstance(obj, (list, dict, str, int,
                             float, bool, type(None))):
             return JSONEncoder.default(self, obj)
         return repr(obj)
@@ -16,7 +16,7 @@ def jsonify(payload):
 
 def plaintext(payload):
     if hasattr(payload, 'values'):
-        payload = payload.values()
+        payload = list(payload.values())
     if isinstance(payload, list) or isinstance(payload, tuple):
         if len(payload) != 1:
             raise RequestParseError('No plaintext support for this endpoint')

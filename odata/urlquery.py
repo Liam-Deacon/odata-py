@@ -60,7 +60,7 @@ def parse_select(context, value):
 
 
 def parse_top(context, value):
-    if isinstance(value, int) or (isinstance(value, basestring)
+    if isinstance(value, int) or (isinstance(value, str)
                                   and value.isdigit()):
         context['sqlobj'] = context['sqlobj'].limit(value)
     else:
@@ -68,7 +68,7 @@ def parse_top(context, value):
 
 
 def parse_skip(context, value):
-    if isinstance(value, int) or (isinstance(value, basestring)
+    if isinstance(value, int) or (isinstance(value, str)
                                   and value.isdigit()):
         context['sqlobj'] = context['sqlobj'].offset(value)
     else:

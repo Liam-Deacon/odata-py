@@ -1,7 +1,7 @@
-#coding: utf-8
+# coding: utf-8
 import functools
 from sqlalchemy.sql import expression
-from .exc import RequestParseError
+from odata.exc import RequestParseError
 
 
 content_types = dict(
@@ -26,19 +26,19 @@ def parse_accept(context, value):
 
 def parse_location(context, value):
     # §8.3.2
-    raise NotImplementedError()
+    raise NotImplementedError('$location not implemented in python odata')
 
 
 def parse_prefer(context, value):
     # §8.4.1
     context['response_headers']['Preference-Applied'] = value
     if value == 'return-no-content':
-        context['response_status'] = 204
+        context['response_status'] = 204  # NO_CONTENT
     elif value == 'return-content':
         if isinstance(context['sqlobj'], expression.Insert):
-            context['response_status'] = 201
+            context['response_status'] = 201  # CREATED
         else:
-            context['response_status'] = 200
+            context['response_status'] = 200  # OK
         sqlobj = context['sqlobj']
         # This will throw an error at compile time if the dialect
         # does not support returning
@@ -55,6 +55,6 @@ def parse(context):
         'location': functools.partial(parse_location, context),
         'prefer': functools.partial(parse_prefer, context)}
 
-    for header, value in headers.iteritems():
+    for header, value in headers.items():
         if header.lower() in parsers:
             parsers[header.lower()](value)

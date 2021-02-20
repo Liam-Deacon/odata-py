@@ -1,3 +1,5 @@
+from typing import Dict, List
+
 from sqlalchemy.sql import expression
 from sqlalchemy import select, insert, update, delete
 
@@ -41,7 +43,7 @@ def validate_and_cleanup(sqlobj, request_payload):
     if ((isinstance(sqlobj, expression.Update) or
             isinstance(sqlobj, expression.Insert)) and
             not sqlobj.parameters):
-        if hasattr(request_payload, 'iteritems'):
+        if hasattr(request_payload, 'items'):
             return sqlobj.values(request_payload)
         else:
             raise RequestParseError('Invalid Payload')
@@ -49,7 +51,8 @@ def validate_and_cleanup(sqlobj, request_payload):
     return sqlobj
 
 
-class RequestParser(object):
+class RequestParser:
+    """This class parses HTTP queries connecting to SQLAlchemy engine object"""
     def __init__(self, tables, engine=None, dialect=None, connection=None):
         self.engine = engine
         self.tables = tables
@@ -72,7 +75,7 @@ class RequestParser(object):
             raise e
         return self.render(context)
 
-    def query(self, sqlobj):
+    def query(self, sqlobj) -> List[Dict[str, Any]]:
         if self.connection is None:
             if self.engine is not None:
                 connection = self.engine.connect()
@@ -84,7 +87,7 @@ class RequestParser(object):
         result = connection.execute(sqlobj)
         if not result.returns_rows:
             raise NoContent()
-        return map(dict, result)
+        return list(map(dict, result))
 
     def render(self, context):
         return dict(payload=render.payload(context),
