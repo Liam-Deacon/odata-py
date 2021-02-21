@@ -1,4 +1,6 @@
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional, Union
+
+import sqlalchemy
 
 from sqlalchemy.sql import expression
 from sqlalchemy import select, insert, update, delete
@@ -53,11 +55,47 @@ def validate_and_cleanup(sqlobj, request_payload):
 
 class RequestParser:
     """This class parses HTTP queries connecting to SQLAlchemy engine object"""
-    def __init__(self, tables, engine=None, dialect=None, connection=None):
+    def __init__(self,
+            tables: Optional[List[str]] = None,
+            engine: Optional[sa.engine.Engine] = None,
+            dialect: Optional[str] = None,
+            connection: Optional[sa.engine.Connection] = None):
+        """Create a new request parser object
+        
+        Parameters
+        ----------
+        tables
+            List of tables to allow queries on (default is to use all tables provided by `engine.table_names()`).
+        engine
+            The SQLAlchemy engine instance to use. Must be provided when no values are given for
+            `connection` and `tables`.
+        dialect
+            The SQLAlchemy dialect to use (uses `engine.dialect` by default). This is primarily used to govern
+            capabilities based on underlying DBMS.
+        connection
+            The SQLAlchemy connection instance to use for the request.
+        
+        Raises
+        ------
+        ValueError
+            When neither `tables` nor `engine` is specified.
+
+        """
         self.engine = engine
-        self.tables = tables
-        self.dialect = dialect
+        self.tables: List[str] = tables
+        self.dialect: Optional[str] = dialect or getattr(self.engine, 'dialect', None)
         self.connection = connection
+
+    @property
+    def tables(self):
+        return self._tables
+
+    @tables.setter
+    def tables(self, tables: Optional[List[str]]):
+        try:
+            self._tables = tables or self.engine.table_names()
+        except AttributeError:
+            raise ValueError('tables list must be provided when no engine is specified')
 
     def parse(self, path, http_verb,
               headers=None, query_args=None, payload=None):
