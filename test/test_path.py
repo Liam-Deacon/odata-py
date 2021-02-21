@@ -6,19 +6,19 @@ from fixtures import tables, users, addresses
 import pytest
 
 expected = [
-    ('GET', '/users', unicode(select().select_from(users))),
-    ('GET', '/users(5)', unicode(
+    ('GET', '/users', str(select().select_from(users))),
+    ('GET', '/users(5)', str(
         select().select_from(users).where(users.c.id == 5))),
-    ('GET', '/users(5)/addresses', unicode(
+    ('GET', '/users(5)/addresses', str(
         select().select_from(users.join(addresses)).where(users.c.id == 5))),
-    ('GET', '/addresses/user_id', unicode(
+    ('GET', '/addresses/user_id', str(
         select().select_from(addresses).column(addresses.c.user_id))),
-    ('DELETE', '/users(5)', unicode(users.delete().where(users.c.id == 5))),
-    ('DELETE', '/users(5)/fullname', unicode(
+    ('DELETE', '/users(5)', str(users.delete().where(users.c.id == 5))),
+    ('DELETE', '/users(5)/fullname', str(
         users.update().where(users.c.id == 5).values({
             users.c.fullname: None}))),
-    ('POST', '/users', unicode(users.insert())),
-    ('PUT', '/users', unicode(users.update())),
+    ('POST', '/users', str(users.insert())),
+    ('PUT', '/users', str(users.update())),
     ]
 
 
@@ -33,14 +33,14 @@ def make_context(verb):
 def test_expected(verb, path, query):
     context = make_context(verb)
     urlpath.parse(path, context)
-    assert unicode(context['sqlobj']) == query
+    assert str(context['sqlobj']) == query
 
 
 def test_value():
     context = make_context('GET')
     path = '/users/name/$value'
     urlpath.parse(path, context)
-    assert unicode(context['sqlobj']) == unicode(
+    assert str(context['sqlobj']) == str(
         select().select_from(users).column(users.c.name))
     assert 'Content-Type' in context['response_headers']
     assert context['response_headers']['Content-Type'] == 'text/plain'

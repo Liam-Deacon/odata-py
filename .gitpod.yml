@@ -12,6 +12,7 @@ tasks:
       echo -ne "Creating virtualenv under 'venv/' ...\r" && python3 -m venv venv && echo "Creating virtualenv under 'venv/' ... done";
       source venv/bin/activate;
       pip install -r requirements.txt -r requirements-test.txt -r requirements-dev.txt
+      pip install -e .
   - command: >
       npm install -g --save remark-cli remark-preset-lint-recommended
 

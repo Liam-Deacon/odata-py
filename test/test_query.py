@@ -19,28 +19,28 @@ def S():
 @pytest.mark.parametrize('context,qargs,expected', [
     (context(S()),
      {'$select': 'id'},
-     unicode(S().column(users.c.id))),
+     str(S().column(users.c.id))),
     (context(S()),
      {'$select': '*'},
-     unicode(users.select())),
+     str(users.select())),
     (context(S()),
      {'$select': 'users.id'},
-     unicode(S().column(users.c.id))),
+     str(S().column(users.c.id))),
     (context(S()),
      {'$select': 'users.*'},
-     unicode(users.select())),
+     str(users.select())),
     (context(select().select_from(users.join(addresses))),
      {'$select': 'name'},
-     unicode(select([users.c.name]).select_from(users.join(addresses)))),
+     str(select([users.c.name]).select_from(users.join(addresses)))),
     (context(S()),
      {'$select': 'name,fullname'},
-     unicode(select([users.c.name, users.c.fullname], None, [users]))),
+     str(select([users.c.name, users.c.fullname], None, [users]))),
     (context(S()),
      {'$top': '5'},
-     unicode(S().limit(5))),
+     str(S().limit(5))),
     (context(S()),
      {'$skip': '5'},
-     unicode(S().offset(5))),
+     str(S().offset(5))),
     ])
 def test(context, qargs, expected):
     try:
@@ -48,7 +48,7 @@ def test(context, qargs, expected):
     except NotImplementedError:
         pytest.skip("not implemented")
     else:
-        assert unicode(ctx['sqlobj']) == expected
+        assert str(ctx['sqlobj']) == expected
 
 
 qargs = ['$select', '$top', '$skip', '$filter']

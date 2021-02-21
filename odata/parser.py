@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Any, Dict, List
 
 from sqlalchemy.sql import expression
 from sqlalchemy import select, insert, update, delete
