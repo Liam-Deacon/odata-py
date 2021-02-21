@@ -1,3 +1,4 @@
+"""This module defines the RquestParser class used for translating HTTP queries into SQL expressions"""
 from typing import Any, Dict, List, Optional, Union
 
 import sqlalchemy
@@ -114,6 +115,7 @@ class RequestParser:
         return self.render(context)
 
     def query(self, sqlobj) -> List[Dict[str, Any]]:
+        """Perform a query on `sqlobj`"""
         if self.connection is None:
             if self.engine is not None:
                 connection = self.engine.connect()
@@ -127,7 +129,21 @@ class RequestParser:
             raise NoContent()
         return list(map(dict, result))
 
-    def render(self, context):
+    def render(self, context, content_type: Optional[str] = None):
+        """Render context, optionally specifying `content_type` of result output.
+        
+        Parameters
+        ----------
+        context
+
+        content_type
+            The type of content to render. Supported types are:
+                - `'application/xml` => XML string of data
+                - `'application/json'` => JSON string of data
+                - `None` => dict representation of data
+            TODO: (content_type is not currently implemented)
+        
+        """
         return dict(payload=render.payload(context),
                     headers=context['response_headers'],
                     status=context['response_status'])
