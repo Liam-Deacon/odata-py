@@ -1,0 +1,7 @@
+######################################
+# Packages for testing (generalised) #
+######################################
+
+nose
+pytest
+pytest-cov

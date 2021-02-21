@@ -1,2 +1,6 @@
+#############################################
+# Essential packages for core functionality #
+#############################################
+
 SQLAlchemy>=0.8.4  # NOTE: needs testing with newer versions
 parsley==1.3

@@ -1,0 +1,13 @@
+recursive-exclude test/ *
+recursive-include odata/ *.py *.pyx
+recursive-exclude .ipynb_checkpoints/ *
+recursive-exclude ./ *Untitled*.ipynb 
+recursive-exclude build/ *
+recursive-exclude dist/ *
+recursive-exclude **/__pycache__ *
+include MANIFEST.in
+include README.md
+include setup.py setup.cfg
+include requirements*.txt
+recursive-exclude docker/* *
+recursive-exclude **/.mypy_cache/* *
