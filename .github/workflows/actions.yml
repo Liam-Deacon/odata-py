@@ -13,12 +13,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
         exclude:
           - os: macos-latest
             python-version: 3.5
           - os: macos-latest
             python-version: 3.6
+          - os: macos-latest
+            python-version: 3.7
           - os: macos-latest
             python-version: 3.8
           - os: macos-latest
@@ -27,6 +29,8 @@ jobs:
             python-version: 3.5
           - os: windows-latest
             python-version: 3.6
+          - os: windows-latest
+            python-version: 3.7
           - os: windows-latest
             python-version: 3.8
           - os: macos-latest
@@ -88,7 +92,6 @@ jobs:
         run: python3 -m pip install lxml mypy
       - name: mypy-check
         run: python3 -m mypy .
-        fail_ci_if_error: false
 
   deploy:
     runs-on: ubuntu-latest
