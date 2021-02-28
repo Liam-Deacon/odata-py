@@ -58,9 +58,9 @@ class RequestParser:
     """This class parses HTTP queries connecting to SQLAlchemy engine object"""
     def __init__(self,
             tables: Optional[List[str]] = None,
-            engine: Optional[sa.engine.Engine] = None,
+            engine: Optional[sqlalchemy.engine.Engine] = None,
             dialect: Optional[str] = None,
-            connection: Optional[sa.engine.Connection] = None):
+            connection: Optional[sqlalchemy.engine.Connection] = None):
         """Create a new request parser object
         
         Parameters
