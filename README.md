@@ -68,6 +68,10 @@ The following are areas of activities to be done:
     - [ ] Linting and static analysis
     - [ ] Code Coverage checks
     - [ ] Deploy odata package to PyPI
+- [ ] Create documentation
+    - [ ] Setup sphinx tooling
+    - [ ] Add documentation task(s) to CI pipeline
+    - [ ] Push documentation to readthedocs.org or github pages
 - [ ] Add some Shields.io badges!
 
 ## Acknkowledgements
