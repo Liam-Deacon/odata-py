@@ -59,6 +59,17 @@ python -m pip install -e .  # where the current working directory is the repo ro
 - [ODATA v4.01 Protocol](https://docs.oasis-open.org/odata/odata/v4.01/odata-v4.01-part1-protocol.html)
 - [ODATA v4.01 URL Conventions](https://docs.oasis-open.org/odata/odata/v4.01/os/part2-url-conventions/odata-v4.01-os-part2-url-conventions.html)
 
+# TODO
+
+The following are areas of activities to be done:
+
+- [ ] Implement minimum ODATA v4 standard (including `$metadata`)
+- [ ] Create a CI/CD pipeline
+    - [ ] Linting and static analysis
+    - [ ] Code Coverage checks
+    - [ ] Deploy odata package to PyPI
+- [ ] Add some Shields.io badges!
+
 ## Acknkowledgements
 
 This repo is based off the [original odata-py work](https://github.com/jisaacstone/odata-py) by [jisaacstone](https://github.com/jisaacstone) targeting ODATA v3. 
